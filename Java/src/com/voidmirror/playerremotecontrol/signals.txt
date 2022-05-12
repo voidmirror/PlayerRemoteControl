@@ -1,0 +1,6 @@
+shiftLeft = 'j'
+shiftRight = 'l'
+playPause = 'k'
+fullscreen = 'f'
+closeConnection
+closeServer

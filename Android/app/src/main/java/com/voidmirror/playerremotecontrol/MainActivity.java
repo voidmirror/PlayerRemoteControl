@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     Button btnYoutube;
 
@@ -17,14 +17,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnYoutube = findViewById(R.id.btnYoutube);
-        btnYoutube.setOnClickListener(this);
+        btnYoutube.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, ControlActivity.class);
+            startActivity(intent);
+        });
     }
 
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(this, ControlActivity.class);
-        startActivity(intent);
-        Toast t = Toast.makeText(getApplicationContext(), "Intent started", Toast.LENGTH_SHORT);
-        t.show();
-    }
+
 }

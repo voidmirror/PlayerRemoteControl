@@ -18,8 +18,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ControlActivity">
-
         </activity>
+
+
 
 <!--        <provider-->
 <!--            android:name="androidx.startup.InitializationProvider"-->
@@ -27,5 +28,7 @@
 <!--            tools:node="remove" />-->
 
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

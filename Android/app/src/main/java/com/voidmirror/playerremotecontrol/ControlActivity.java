@@ -11,27 +11,26 @@ public class ControlActivity extends Activity {
 
     Button btnShiftLeft;
     Button btnShiftRight;
+    NetController netController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
+        netController = new NetController(this);
         btnShiftLeft = findViewById(R.id.btnShiftLeft);
         btnShiftRight = findViewById(R.id.btnShiftRight);
-        btnShiftLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT);
-                toast.show();
-            }
+        btnShiftLeft.setOnClickListener(view -> {
+            Toast toast = Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT);
+            toast.show();
+            netController.SendSignal("shiftLeft");
         });
-        btnShiftRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Right", Toast.LENGTH_SHORT);
-                toast.show();
-            }
+        btnShiftRight.setOnClickListener(view -> {
+            Toast toast = Toast.makeText(getApplicationContext(), "Right", Toast.LENGTH_SHORT);
+            toast.show();
         });
+
+
     }
 
 }
