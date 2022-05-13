@@ -32,6 +32,7 @@ public class Server {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
                 while (true) {
+                    System.out.println("# Waiting Input signal...");
                     String signal = in.readLine();
                     System.out.println("Input " + signal);
                     if (signal.equals("closeConnection")) {

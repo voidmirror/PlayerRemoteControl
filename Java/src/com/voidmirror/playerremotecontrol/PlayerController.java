@@ -34,6 +34,14 @@ public class PlayerController {
                 robot.keyPress(KeyEvent.VK_F);
                 robot.keyRelease(KeyEvent.VK_F);
                 break;
+            case "soundUp":
+                robot.keyPress(KeyEvent.VK_UP);
+                robot.keyRelease(KeyEvent.VK_UP);
+                break;
+            case "soundDown":
+                robot.keyPress(KeyEvent.VK_DOWN);
+                robot.keyRelease(KeyEvent.VK_DOWN);
+                break;
         }
 
     }

@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">PlayerRemoteControl</string>
     <string name="btnYoutube">YOUTUBE</string>
+    <string name="btnPause">PLAY/PAUSE</string>
+    <string name="btnLeft">10s-</string>
+    <string name="btnRight">10s+</string>
+    <string name="btnFullscreen">Fullscreen</string>
+    <string name="btnExit">Exit</string>
+    <string name="btnSoundUp">+</string>
+    <string name="btnSoundDown">-</string>
     <string name="NetControllerUnableToConnect">Unable to connect to Server</string>
     <string name="NetControllerConnected">Connected</string>
 </resources>
