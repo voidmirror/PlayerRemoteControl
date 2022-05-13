@@ -8,6 +8,7 @@
     <string name="btnExit">Exit</string>
     <string name="btnSoundUp">+</string>
     <string name="btnSoundDown">-</string>
+    <string name="stopHint">\'stop\' server</string>
     <string name="NetControllerUnableToConnect">Unable to connect to Server</string>
     <string name="NetControllerConnected">Connected</string>
 </resources>

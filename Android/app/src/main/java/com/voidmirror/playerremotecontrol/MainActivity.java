@@ -8,9 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnYoutube;
+//    private static String host = "192.168.0.79";
+//    private static int port = 4077;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,4 +28,5 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
 }

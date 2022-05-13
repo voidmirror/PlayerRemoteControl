@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -17,7 +18,10 @@ public class ControlActivity extends Activity {
     Button btnFullscreen;
     Button btnSoundUp;
     Button btnSoundDown;
-    NetController netController;
+
+    EditText editTextStop;
+
+    NetController netController = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,8 @@ public class ControlActivity extends Activity {
         btnSoundUp = findViewById(R.id.soundUp);
         btnSoundDown = findViewById(R.id.soundDown);
 
+        editTextStop = findViewById(R.id.editTextStop);
+
         btnShiftLeft.setOnClickListener(view -> {
 //            Toast toast = Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT);
 //            toast.show();
@@ -45,7 +51,7 @@ public class ControlActivity extends Activity {
             netController.sendSignal("playPause");
         });
         btnExit.setOnClickListener(view -> {
-            netController.sendSignal("closeServer");
+            releaseBtnExit();
             finish();
         });
         btnFullscreen.setOnClickListener(view -> {
@@ -57,15 +63,15 @@ public class ControlActivity extends Activity {
         btnSoundDown.setOnClickListener(view -> {
             netController.sendSignal("soundDown");
         });
-
-
-
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        netController.sendSignal("closeConnection");
+        System.out.println("### NETCONTOLLER " + netController + " ###");
+        if (netController.getClientSocket().isConnected()) {
+            netController.sendSignal("closeConnection");
+        }
     }
 
     @Override
@@ -74,8 +80,25 @@ public class ControlActivity extends Activity {
         establishConnection();
     }
 
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        if (netController != null) {
+//            netController.sendSignal("closeConnection");
+//        }
+//    }
+
     private void establishConnection() {
+        System.out.println("### ESTABLISH ###");
         netController = new NetController(this);
+    }
+
+    private void releaseBtnExit() {
+        if (editTextStop.getText().toString().equals("stop")) {
+            netController.sendSignal("closeServer");
+        } else {
+            netController.sendSignal("closeConnection");
+        }
     }
 
     //    @Override
