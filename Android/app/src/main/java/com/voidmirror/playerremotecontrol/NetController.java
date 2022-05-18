@@ -1,6 +1,8 @@
 package com.voidmirror.playerremotecontrol;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ public class NetController{
         this.activityContext = activityContext;
         Thread thread = new Thread(() -> {
             System.out.println("### ESTABLISHING THREAD STARTED ###");
+
 //            if (!pingServer()) {
 //                Toast toast = Toast.makeText(activityContext, R.string.NetControllerConnected, Toast.LENGTH_SHORT);
 //                toast.show();
@@ -47,16 +50,14 @@ public class NetController{
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
+
             try {
                 System.out.println("### BEFORE SOCKET ###");
                 clientSocket = new Socket(host, port);
-//                clientSocket = new Socket();
-//                clientSocket.connect(new InetSocketAddress(host, port), 5000);
+
                 System.out.println("### AFTER SOCKET ###");
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 System.out.println("### AFTER WRITER ###");
-//                    Toast toast = Toast.makeText(activityContext, R.string.NetControllerConnected, Toast.LENGTH_SHORT);
-//                    toast.show();
                 System.out.println(clientSocket);
                 System.out.println(out);
             } catch (UnknownHostException h) {
@@ -70,21 +71,27 @@ public class NetController{
                 System.out.println("### IO CATCH EXCEPTION ###");
                 clientSocket = null;
                 out = null;
-//                    Toast toast = Toast.makeText(activityContext, R.string.NetControllerUnableToConnect, Toast.LENGTH_SHORT);
-//                    toast.show();
                 e.printStackTrace();
-//                    closeConnection();
                 activityContext.finish();
             }
-//                finally {
-//                    // TODO: send toast about socket closing
-//                    closeConnection();
-//                    System.out.println("CLOSE");
-//
-//                }
         });
         thread.start();
-
+//        Thread threadTimer = new Thread(() -> {
+//            try {
+//                Thread.sleep(3000);
+//                System.out.println(clientSocket);
+//                if (clientSocket != null) {
+//                    pm.setComponentEnabledSetting(new ComponentName(activityContext, ControlActivity.class), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+//                } else {
+////                    Toast toast = Toast.makeText(activityContext, R.string.NetControllerUnableToConnect, Toast.LENGTH_SHORT);
+////                    toast.show();
+//                    activityContext.finish();
+//                }
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        threadTimer.start();
     }
 
     public void sendSignal(String signal) {

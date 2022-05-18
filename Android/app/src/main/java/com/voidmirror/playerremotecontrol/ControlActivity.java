@@ -1,7 +1,9 @@
 package com.voidmirror.playerremotecontrol;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -89,6 +91,8 @@ public class ControlActivity extends Activity {
 //    }
 
     private void establishConnection() {
+//        PackageManager pm = getPackageManager();
+//        pm.setComponentEnabledSetting(new ComponentName(this, ControlActivity.class), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         System.out.println("### ESTABLISH ###");
         netController = new NetController(this);
     }
@@ -99,6 +103,7 @@ public class ControlActivity extends Activity {
         } else {
             netController.sendSignal("closeConnection");
         }
+        finish();
     }
 
     //    @Override
