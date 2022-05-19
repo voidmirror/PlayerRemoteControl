@@ -95,10 +95,13 @@ public class NetController{
     }
 
     public void sendSignal(String signal) {
+        System.out.println("### SIGNAL " + signal + " ###");
+        System.out.println(out);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    System.out.println("### SIGNAL 2 " + signal + " ###");
                     out.write(signal + '\n');
                     out.flush();
                 } catch (IOException | NullPointerException e) {

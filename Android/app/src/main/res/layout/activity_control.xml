@@ -93,16 +93,17 @@
         android:id="@+id/editTextStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:layout_marginStart="20dp"
 
-        android:maxLines="1"
+        android:ems="10"
+        android:hint="@string/stopHint"
+        android:inputType="textPersonName"
+
         android:lines="1"
         android:maxLength="4"
-        android:hint="@string/stopHint"
-
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@id/btnFullscreen"
+        android:maxLines="1"
         app:layout_constraintEnd_toStartOf="@id/btnExit"
+        app:layout_constraintStart_toEndOf="@id/btnFullscreen"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

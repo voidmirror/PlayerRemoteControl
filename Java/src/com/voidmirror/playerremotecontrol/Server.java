@@ -53,6 +53,12 @@ public class Server {
         } catch (IOException e) {
             System.out.println("### ERROR ###: Server error");
             e.printStackTrace();
+        } finally {
+            try {
+                serverSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

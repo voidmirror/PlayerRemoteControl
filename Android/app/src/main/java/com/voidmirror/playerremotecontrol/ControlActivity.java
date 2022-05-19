@@ -101,7 +101,13 @@ public class ControlActivity extends Activity {
         if (editTextStop.getText().toString().equals("stop")) {
             netController.sendSignal("closeServer");
         } else {
-            netController.sendSignal("closeConnection");
+            if (netController.getClientSocket().isConnected()) {
+                System.out.println(netController);
+                netController.sendSignal("closeConnection");
+            } else {
+                System.out.println(netController);
+                System.out.println("### BTNEXIT CLOSECONNECTION NOT CONNECTED ###");
+            }
         }
         finish();
     }
