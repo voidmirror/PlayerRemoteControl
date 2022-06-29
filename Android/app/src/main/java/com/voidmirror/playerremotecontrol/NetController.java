@@ -66,6 +66,10 @@ public class NetController{
 
     }
 
+    public void tmp() {
+
+    }
+
     public void closeConnection() {
         if (clientSocket != null) {
             try {

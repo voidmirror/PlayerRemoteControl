@@ -42,6 +42,7 @@ public class PlayerController {
                 robot.keyPress(KeyEvent.VK_DOWN);
                 robot.keyRelease(KeyEvent.VK_DOWN);
                 break;
+//            case "soundUpIffff
         }
 
     }

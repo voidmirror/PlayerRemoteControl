@@ -13,25 +13,36 @@ public class ControlActivity extends Activity {
     Button btnShiftLeft;
     Button btnShiftRight;
     Button btnPause;
-    Button btnExit;
+    Button btnConnect;
     Button btnFullscreen;
     Button btnSoundUp;
     Button btnSoundDown;
+    Button btnSoundUpInternal;
+    Button btnSoundDownInternal;
     NetController netController;
+    HttpController httpController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
+        httpController = new HttpController(getApplicationContext());
+        httpController.setHost("http://192.168.0.79:4077");
+
+
+
+
         establishConnection();
 
         btnShiftLeft = findViewById(R.id.btnShiftLeft);
         btnShiftRight = findViewById(R.id.btnShiftRight);
         btnPause = findViewById(R.id.btnPause);
-        btnExit = findViewById(R.id.btnExit);
+        btnConnect = findViewById(R.id.btnConnect);
         btnFullscreen = findViewById(R.id.btnFullscreen);
         btnSoundUp = findViewById(R.id.soundUp);
         btnSoundDown = findViewById(R.id.soundDown);
+//        btnSoundUpInternal = findViewById(R.id.soundUpInternal);
+//        btnSoundDownInternal = findViewById(R.id.soundDownInternal);
 
         btnShiftLeft.setOnClickListener(view -> {
 //            Toast toast = Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT);
@@ -44,10 +55,14 @@ public class ControlActivity extends Activity {
         btnPause.setOnClickListener(view -> {
             netController.sendSignal("playPause");
         });
-        btnExit.setOnClickListener(view -> {
-            netController.sendSignal("closeServer");
-            finish();
-        });
+
+        // TODO: change button or remove
+//        btnExit.setEnabled(false);
+//        btnExit.setOnClickListener(view -> {
+//            netController.sendSignal("closeServer");
+//            finish();
+//        });
+
         btnFullscreen.setOnClickListener(view -> {
             netController.sendSignal("fullscreen");
         });
@@ -56,6 +71,16 @@ public class ControlActivity extends Activity {
         });
         btnSoundDown.setOnClickListener(view -> {
             netController.sendSignal("soundDown");
+        });
+//        btnSoundUpInternal.setOnClickListener(view -> {
+//            netController.sendSignal("soundUpInternal");
+//        });
+//        btnSoundDownInternal.setOnClickListener(view -> {
+//            netController.sendSignal("soundDownInternal");
+//        });
+
+        btnConnect.setOnClickListener(view -> {
+            httpController.establishConnection();
         });
 
 
@@ -78,37 +103,5 @@ public class ControlActivity extends Activity {
         netController = new NetController(this);
     }
 
-    //    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_control);
-//        btnShiftLeft = findViewById(R.id.btnShiftLeft);
-//        btnShiftRight = findViewById(R.id.btnShiftRight);
-//
-//
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                netController = new NetController(ControlActivity.this);
-//                Toast toast0 = Toast.makeText(getApplicationContext(), "CONTROLLER CREATED", Toast.LENGTH_SHORT);
-//                toast0.show();
-//                btnShiftLeft.setOnClickListener(view -> {
-//                    Toast toast = Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT);
-//                    toast.show();
-//                    netController.SendSignal("shiftLeft");
-//                });
-//                btnShiftRight.setOnClickListener(view -> {
-//                    Toast toast = Toast.makeText(getApplicationContext(), "Right", Toast.LENGTH_SHORT);
-//                    toast.show();
-//                });
-//            }
-//        });
-//
-//        thread.start();
-//
-//
-//
-//
-//    }
 
 }

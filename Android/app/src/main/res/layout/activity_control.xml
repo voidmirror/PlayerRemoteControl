@@ -55,7 +55,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnExit"
+        android:id="@+id/btnConnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btnExit"
@@ -88,5 +88,24 @@
         android:text="@string/btnSoundDown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/soundUp" />
+
+    <!--    <Button-->
+<!--        android:id="@+id/soundUpInternal"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="250dp"-->
+<!--        android:layout_marginStart="1dp"-->
+<!--        android:text="@string/btnSoundUp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/toolbar" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/soundDownInternal"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="1dp"-->
+<!--        android:text="@string/btnSoundDown"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/soundUp" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
