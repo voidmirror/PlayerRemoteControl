@@ -1,8 +1,11 @@
 package com.voidmirror.playerremotecontrol;
 
+import org.springframework.stereotype.Service;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+@Service
 public class PlayerController {
 
     private Robot robot;
@@ -42,7 +45,6 @@ public class PlayerController {
                 robot.keyPress(KeyEvent.VK_DOWN);
                 robot.keyRelease(KeyEvent.VK_DOWN);
                 break;
-//            case "soundUpIffff
         }
 
     }

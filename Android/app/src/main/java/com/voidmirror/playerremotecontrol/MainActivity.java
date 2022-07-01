@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnYoutube;
 
+    NetSearch netSearch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,5 +25,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, ControlActivity.class);
             startActivity(intent);
         });
+
+        netSearch = new NetSearch(getApplicationContext());
+        netSearch.search();
     }
 }

@@ -27,7 +27,8 @@ public class ControlActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
         httpController = new HttpController(getApplicationContext());
-        httpController.setHost("http://192.168.0.79:4077");
+//        httpController.setHost("http://192.168.0.79:4077");
+        httpController.setHost("http://192.168.43.1:4077");
 
 
 
