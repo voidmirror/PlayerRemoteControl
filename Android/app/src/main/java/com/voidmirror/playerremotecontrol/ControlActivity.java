@@ -26,14 +26,12 @@ public class ControlActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
-        httpController = new HttpController(getApplicationContext());
-//        httpController.setHost("http://192.168.0.79:4077");
-        httpController.setHost("http://192.168.43.1:4077");
+        httpController = new HttpController(this);
+//        httpController.setHost("http://192.168.0.79:4077/code"); // wireless
+        httpController.setHost("http://192.168.0.46:4077/code"); // lan
+//        httpController.setHost("http://192.168.43.1:4077");
 
 
-
-
-        establishConnection();
 
         btnShiftLeft = findViewById(R.id.btnShiftLeft);
         btnShiftRight = findViewById(R.id.btnShiftRight);
@@ -42,19 +40,15 @@ public class ControlActivity extends Activity {
         btnFullscreen = findViewById(R.id.btnFullscreen);
         btnSoundUp = findViewById(R.id.soundUp);
         btnSoundDown = findViewById(R.id.soundDown);
-//        btnSoundUpInternal = findViewById(R.id.soundUpInternal);
-//        btnSoundDownInternal = findViewById(R.id.soundDownInternal);
 
         btnShiftLeft.setOnClickListener(view -> {
-//            Toast toast = Toast.makeText(getApplicationContext(), "Left", Toast.LENGTH_SHORT);
-//            toast.show();
-            netController.sendSignal("shiftLeft");
+            httpController.sendSignal("shiftLeft");
         });
         btnShiftRight.setOnClickListener(view -> {
-            netController.sendSignal("shiftRight");
+            httpController.sendSignal("shiftRight");
         });
         btnPause.setOnClickListener(view -> {
-            netController.sendSignal("playPause");
+            httpController.sendSignal("playPause");
         });
 
         // TODO: change button or remove
@@ -65,13 +59,13 @@ public class ControlActivity extends Activity {
 //        });
 
         btnFullscreen.setOnClickListener(view -> {
-            netController.sendSignal("fullscreen");
+            httpController.sendSignal("fullscreen");
         });
         btnSoundUp.setOnClickListener(view -> {
-            netController.sendSignal("soundUp");
+            httpController.sendSignal("soundUp");
         });
         btnSoundDown.setOnClickListener(view -> {
-            netController.sendSignal("soundDown");
+            httpController.sendSignal("soundDown");
         });
 //        btnSoundUpInternal.setOnClickListener(view -> {
 //            netController.sendSignal("soundUpInternal");
@@ -80,9 +74,10 @@ public class ControlActivity extends Activity {
 //            netController.sendSignal("soundDownInternal");
 //        });
 
-        btnConnect.setOnClickListener(view -> {
-            httpController.establishConnection();
-        });
+        btnConnect.setEnabled(false);
+//        btnConnect.setOnClickListener(view -> {
+//            httpController.establishConnection();
+//        });
 
 
 
@@ -91,13 +86,13 @@ public class ControlActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        netController.sendSignal("closeConnection");
+//        httpController.sendSignal("closeConnection");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        establishConnection();
+//        establishConnection();
     }
 
     private void establishConnection() {

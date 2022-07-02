@@ -15,9 +15,10 @@ public class ServerSpring {
 
     @PostMapping(value = "/code", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void receiveCode(@RequestBody ControlCode code) {
+        System.out.println(code.getCode());
         playerController.executeSignal(code.getCode());
     }
-
+    
     @GetMapping(value = "/code")
     public String getCode() {
 //        playerController.executeSignal("fullscreen");

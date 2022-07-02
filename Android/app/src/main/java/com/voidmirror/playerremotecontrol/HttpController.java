@@ -1,5 +1,6 @@
 package com.voidmirror.playerremotecontrol;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -37,12 +38,14 @@ public class HttpController {
         return false;
     }
 
-    public void establishConnection() {
+    public void sendSignal(String code) {
         if (host == null) {
             throw new NullPointerException("Host is not stated");
         }
-        String bodyString = "fullscreen";
-        String bodyJson = "{\"command\":\"fullscreen\"}";
+        String bodyJson = "{\"code\":\""
+            + code
+            + "\"}";
+        System.out.println(bodyJson);
 //        RequestBody requestBody = RequestBody.create(TEXT_TYPE, bodyString);
         RequestBody requestBody = RequestBody.create(JSON, bodyJson);
         Request request = new Request.Builder()
@@ -62,8 +65,14 @@ public class HttpController {
                 if (!response.isSuccessful()) {
                     throw new IOException("Unexpected response code");
                 } else {
-                    Toast toast = Toast.makeText(context, "Connection Success", Toast.LENGTH_SHORT);
-                    toast.show();
+//                    ((Activity)context).runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast toast = Toast.makeText(context, "Connection Success", Toast.LENGTH_SHORT);
+//                            toast.show();
+//                        }
+//                    });
+
                     if (response.body() != null) {
                         System.out.println(response.body().string());
                     } else {
