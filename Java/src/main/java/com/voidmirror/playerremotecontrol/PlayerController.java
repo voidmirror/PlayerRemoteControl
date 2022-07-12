@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 @Service
 public class PlayerController {
@@ -45,6 +46,12 @@ public class PlayerController {
                 robot.keyPress(KeyEvent.VK_DOWN);
                 robot.keyRelease(KeyEvent.VK_DOWN);
                 break;
+            case "startTimer":
+                try {
+                    Runtime.getRuntime().exec("C:\\Zed\\Scripts\\Shutdown\\shut.cmd");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
         }
 
     }

@@ -14,13 +14,26 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import java.net.InetAddress;
+import java.util.ArrayList;
+
 import javax.xml.transform.Source;
+
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.observers.DisposableObserver;
 
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class NetSearch {
+
+    private int subnetSearchStart = 0;
+    private int subnetSearchStop = 256;
 
     private Context context;
 
@@ -102,7 +115,39 @@ public class NetSearch {
             System.out.println("### TIME: " + (System.currentTimeMillis() - time));
 
 //        }
+        getOpenLocalAddresses(subnet).subscribeOn(Schedulers.computation()).observeOn(Schedulers.single()).subscribe(booleans -> {
+            for (int i = 0; i < booleans.size(); i++) {
+                System.out.println("### Subnet issue: " + booleans.get(i) + " " + subnet + "." + i);
+            }
+        });
 
+    }
+
+    public Flowable<ArrayList<Boolean>> getOpenLocalAddresses(String subnet) {
+
+        // TODO: Manual boundary 'from i to n' using vars
+        ArrayList<Boolean> ipList = new ArrayList<>();
+        for (int i = 0; i < subnetSearchStop; i++) {
+            ipList.add(false);
+        }
+
+        return Flowable.fromCallable(() -> {
+            for (int i = subnetSearchStart; i < subnetSearchStop; i++) {
+                InetAddress inetAddress = InetAddress.getByName(subnet + "." + i);
+                ipList.set(i, inetAddress.isReachable(10));
+            }
+            return ipList;
+        });
+
+
+
+
+//        return Observable.create()
+    }
+
+    public Flowable<ArrayList<Boolean>> getHTTPLocalAddresses(String subnet) {
+        // do the save with OKHTTP and see return code (find 200)
+        return null;
     }
 
 
