@@ -20,18 +20,6 @@ public class PlayerController {
         }
     }
 
-    private String getIp() {
-        Process p = null;
-        String s = "";
-        try {
-            p = Runtime.getRuntime().exec("ipconfig");
-            System.out.println(p.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return s;
-    }
-
     public String executeSignal(String signal) {
 
         switch (signal) {
@@ -67,7 +55,7 @@ public class PlayerController {
                 }
                 break;
             case "checkOnline":
-                return getIp();
+                return "5555555";
         }
 
         return "ok";

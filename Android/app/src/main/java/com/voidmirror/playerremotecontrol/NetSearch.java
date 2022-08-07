@@ -80,97 +80,6 @@ public class NetSearch {
 
         return subnet;
 
-        //TODO: something strange, now commented
-        /*
-
-        ArrayList<Boolean> reachable = null;
-//        for (int i = 0; i < 256; i++) {
-//            reachable.add(false);
-//        }
-
-//        for (int i = 0; i < 256; i++) {
-//            ExecutorService executor = Executors.newFixedThreadPool(256);
-
-            long time = System.currentTimeMillis();
-            Observable<ArrayList<Boolean>> listObservable = Observable.fromCallable(() -> {
-
-                ArrayList<Boolean> list = new ArrayList<>();
-
-                for (int i = 0; i < 256; i++) {
-                    boolean result = false;
-                    try {
-                        InetAddress address = InetAddress.getByName(subnet + "." + String.valueOf(i));
-                        result = address.isReachable(1000);
-                        list.set(i, result);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-                return list;
-            });
-            listObservable.subscribe(new DisposableObserver<ArrayList<Boolean>>() {
-                @Override
-                public void onNext(@NonNull ArrayList<Boolean> booleans) {
-                    
-                }
-
-                @Override
-                public void onError(@NonNull Throwable e) {
-                    e.printStackTrace();
-                }
-
-                @Override
-                public void onComplete() {
-
-                }
-            });
-
-            System.out.println("### TIME: " + (System.currentTimeMillis() - time));
-
-//        }
-        getOpenLocalAddresses(subnet).subscribeOn(Schedulers.computation()).observeOn(Schedulers.single()).subscribe(booleans -> {
-            for (int i = 0; i < booleans.size(); i++) {
-                System.out.println("### Subnet issue: " + booleans.get(i) + " " + subnet + "." + i);
-            }
-        });
-
-         */
-
-    }
-
-    public String searchOpenedServer(String subnet) {
-        OkHttpClient client = new OkHttpClient();
-        String bodyJson = "{\"code\":\""
-                + "isServerOpened"
-                + "\"}";
-        System.out.println(bodyJson);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), bodyJson);
-
-        for (int i = 0; i < 256; i++) {
-            Request request = new Request.Builder()
-                    .url(subnet + "." + i)
-                    .post(requestBody)
-                    .build();
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    //TODO: if server sent "opened", return its ip
-                }
-            });
-        }
-
-
-
-        return null;
-
     }
 
     public void reallySearch() {
@@ -180,50 +89,20 @@ public class NetSearch {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(d -> {
-                    System.out.println("D is " + d);
                     httpController.setHost(d);
                     httpController.sendSignal("checkOnline");
                 }, d -> {
+                    d.printStackTrace();
                     Log.e("SubnetSearchError", "CheckOnline is not possible");
                 });
     }
 
     public Observable<String> searchOpenedServer2(String subnet) {
         return  Observable.create(subscriber -> {
-            for (int i = 0; i < 256; i++) {
-//                System.out.println(subnet + "." + i);
-                subscriber.onNext(subnet + "." + i);
+            for (int i = 1; i < 255; i++) {
+                subscriber.onNext("http://" + subnet + "." + i + ":4077/code");
             }
         });
     }
-
-    public Flowable<ArrayList<Boolean>> getOpenLocalAddresses(String subnet) {
-
-        // TODO: Manual boundary 'from i to n' using vars
-        ArrayList<Boolean> ipList = new ArrayList<>();
-        for (int i = 0; i < subnetSearchStop; i++) {
-            ipList.add(false);
-        }
-
-        return Flowable.fromCallable(() -> {
-            for (int i = subnetSearchStart; i < subnetSearchStop; i++) {
-                InetAddress inetAddress = InetAddress.getByName(subnet + "." + i);
-                ipList.set(i, inetAddress.isReachable(10));
-            }
-            return ipList;
-        });
-
-
-
-
-//        return Observable.create()
-    }
-
-    public Flowable<ArrayList<Boolean>> getHTTPLocalAddresses(String subnet) {
-        // do the save with OKHTTP and see return code (find 200)
-        return null;
-    }
-
-
 
 }

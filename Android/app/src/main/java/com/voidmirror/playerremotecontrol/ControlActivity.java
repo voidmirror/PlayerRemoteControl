@@ -17,9 +17,6 @@ public class ControlActivity extends Activity {
     Button btnFullscreen;
     Button btnSoundUp;
     Button btnSoundDown;
-    Button btnSoundUpInternal;
-    Button btnSoundDownInternal;
-    NetController netController;
     HttpController httpController;
 
     @Override
@@ -29,8 +26,7 @@ public class ControlActivity extends Activity {
         httpController = new HttpController(this);
 //        httpController.setHost("http://192.168.0.79:4077/code"); // wireless
         httpController.setHost("http://192.168.0.46:4077/code"); // lan
-//        httpController.setHost("http://192.168.43.1:4077");
-
+//        httpController.setHost("http://192.168.43.1:4077"); // androidAP
 
 
         btnShiftLeft = findViewById(R.id.btnShiftLeft);
@@ -50,14 +46,6 @@ public class ControlActivity extends Activity {
         btnPause.setOnClickListener(view -> {
             httpController.sendSignal("playPause");
         });
-
-        // TODO: change button or remove
-//        btnExit.setEnabled(false);
-//        btnExit.setOnClickListener(view -> {
-//            netController.sendSignal("closeServer");
-//            finish();
-//        });
-
         btnFullscreen.setOnClickListener(view -> {
             httpController.sendSignal("fullscreen");
         });
@@ -67,37 +55,10 @@ public class ControlActivity extends Activity {
         btnSoundDown.setOnClickListener(view -> {
             httpController.sendSignal("soundDown");
         });
-//        btnSoundUpInternal.setOnClickListener(view -> {
-//            netController.sendSignal("soundUpInternal");
-//        });
-//        btnSoundDownInternal.setOnClickListener(view -> {
-//            netController.sendSignal("soundDownInternal");
-//        });
-
-//        btnConnect.setEnabled(false);
         btnConnect.setOnClickListener(view -> {
             httpController.sendSignal("startTimer");
         });
 
-
-
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-//        httpController.sendSignal("closeConnection");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-//        establishConnection();
-    }
-
-    private void establishConnection() {
-        netController = new NetController(this);
-    }
-
 
 }

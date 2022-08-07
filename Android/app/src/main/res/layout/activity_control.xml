@@ -90,18 +90,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/soundUp" />
 
-    <TextView
-        android:id="@+id/responseText"
-        android:layout_width="256dp"
-        android:layout_height="186dp"
-        android:layout_marginBottom="261dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
-<!--        app:layout_constraintTop_toTopOf="parent"-->
 
 
 

@@ -43,57 +43,6 @@ public class HttpController {
         this.host = host;
     }
 
-    public boolean checkConnection() {
-        // TODO: check is server available
-        return false;
-    }
-
-    public void sendSignal2(String code) {
-        if (host == null) {
-            throw new NullPointerException("Host is not stated");
-        }
-        String bodyJson = "{\"code\":\""
-            + code
-            + "\"}";
-        System.out.println(bodyJson);
-//        RequestBody requestBody = RequestBody.create(TEXT_TYPE, bodyString);
-        RequestBody requestBody = RequestBody.create(JSON, bodyJson);
-        Request request = new Request.Builder()
-                .url(host)
-                .post(requestBody)
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-//                Toast toast = Toast.makeText(context, "Connection failure", Toast.LENGTH_SHORT);
-//                toast.show();
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    throw new IOException("Unexpected response code");
-                } else {
-//                    ((Activity)context).runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Toast toast = Toast.makeText(context, "Connection Success", Toast.LENGTH_SHORT);
-//                            toast.show();
-//                        }
-//                    });
-
-                    if (response.body() != null) {
-                        System.out.println(response.body().string());
-                    } else {
-                        System.out.println("###  RESPONSE BODY IS NULL");
-                    }
-                    System.out.println("Server is online");
-                }
-            }
-        });
-    }
-
     public void sendSignal(String code) {
         if (host == null) {
             throw new NullPointerException("Host is not stated");
@@ -101,8 +50,6 @@ public class HttpController {
         String bodyJson = "{\"code\":\""
                 + code
                 + "\"}";
-        System.out.println(bodyJson);
-//        RequestBody requestBody = RequestBody.create(TEXT_TYPE, bodyString);
         RequestBody requestBody = RequestBody.create(JSON, bodyJson);
         Request request = new Request.Builder()
                 .url(host)
@@ -111,24 +58,19 @@ public class HttpController {
 
         dataSource(request)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.single())
+                .subscribeOn(Schedulers.newThread())
                 .subscribe(response -> {
-                    TextView textView;
-                    textView = ((Activity)context).findViewById(R.id.responseText);
-                    textView.setText("LALALA");
-                    System.out.println("### V:" + response);
-                    Toast toast = Toast.makeText(context, "hey", Toast.LENGTH_SHORT);
-                    toast.show();
+//                    System.out.println("### V:" + response);
                 }, v -> Log.e("RX Error", "Something goes wrong..."));
 
     }
 
-    public Single<String> dataSource(Request request) {
-        return Single.create(subscriber -> {
+    public Observable<String> dataSource(Request request) {
+        return Observable.create(subscriber -> {
 
             Response r = client.newCall(request).execute();
             if (r.code() == 200) {
-                subscriber.onSuccess(r.toString());
+                subscriber.onNext(r.toString());
             } else {
                 subscriber.onError(new Exception("Server response code != 200"));
             }
