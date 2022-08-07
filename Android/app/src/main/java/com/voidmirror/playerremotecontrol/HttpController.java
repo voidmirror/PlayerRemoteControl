@@ -2,11 +2,18 @@ package com.voidmirror.playerremotecontrol;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -25,7 +32,10 @@ public class HttpController {
     private Context context;
 
     public HttpController(Context context) {
-        client = new OkHttpClient();
+        client = new OkHttpClient()
+                .newBuilder()
+                .connectTimeout(2000, TimeUnit.MILLISECONDS)
+                .build();
         this.context = context;
     }
 
@@ -38,7 +48,7 @@ public class HttpController {
         return false;
     }
 
-    public void sendSignal(String code) {
+    public void sendSignal2(String code) {
         if (host == null) {
             throw new NullPointerException("Host is not stated");
         }
@@ -83,4 +93,46 @@ public class HttpController {
             }
         });
     }
+
+    public void sendSignal(String code) {
+        if (host == null) {
+            throw new NullPointerException("Host is not stated");
+        }
+        String bodyJson = "{\"code\":\""
+                + code
+                + "\"}";
+        System.out.println(bodyJson);
+//        RequestBody requestBody = RequestBody.create(TEXT_TYPE, bodyString);
+        RequestBody requestBody = RequestBody.create(JSON, bodyJson);
+        Request request = new Request.Builder()
+                .url(host)
+                .post(requestBody)
+                .build();
+
+        dataSource(request)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.single())
+                .subscribe(response -> {
+                    TextView textView;
+                    textView = ((Activity)context).findViewById(R.id.responseText);
+                    textView.setText("LALALA");
+                    System.out.println("### V:" + response);
+                    Toast toast = Toast.makeText(context, "hey", Toast.LENGTH_SHORT);
+                    toast.show();
+                }, v -> Log.e("RX Error", "Something goes wrong..."));
+
+    }
+
+    public Single<String> dataSource(Request request) {
+        return Single.create(subscriber -> {
+
+            Response r = client.newCall(request).execute();
+            if (r.code() == 200) {
+                subscriber.onSuccess(r.toString());
+            } else {
+                subscriber.onError(new Exception("Server response code != 200"));
+            }
+        });
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.voidmirror.playerremotecontrol;
 
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -19,7 +20,19 @@ public class PlayerController {
         }
     }
 
-    public void executeSignal(String signal) {
+    private String getIp() {
+        Process p = null;
+        String s = "";
+        try {
+            p = Runtime.getRuntime().exec("ipconfig");
+            System.out.println(p.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
+
+    public String executeSignal(String signal) {
 
         switch (signal) {
             case "shiftLeft":
@@ -52,7 +65,12 @@ public class PlayerController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                break;
+            case "checkOnline":
+                return getIp();
         }
+
+        return "ok";
 
     }
 

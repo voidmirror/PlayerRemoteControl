@@ -23,6 +23,7 @@ import okhttp3.OkHttpClient;
 public class MainActivity extends AppCompatActivity {
 
     Button btnYoutube;
+    Button btnSearchHost;
 
     NetSearch netSearch;
 
@@ -31,13 +32,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnYoutube = findViewById(R.id.btnYoutube);
+        btnSearchHost = findViewById(R.id.btnSearchHost);
         btnYoutube.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, ControlActivity.class);
             startActivity(intent);
         });
 
         netSearch = new NetSearch(getApplicationContext());
-        netSearch.search();
+//        netSearch.getSubnet();
+
+
+        btnSearchHost.setOnClickListener(view -> {
+            netSearch.reallySearch();
+        });
+
 
 //        ArrayList<Boolean> test = test();
 

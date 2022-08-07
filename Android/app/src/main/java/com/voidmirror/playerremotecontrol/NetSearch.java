@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.format.Formatter;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import javax.xml.transform.Source;
 
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.observers.DisposableObserver;
@@ -29,6 +31,13 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class NetSearch {
 
@@ -36,9 +45,11 @@ public class NetSearch {
     private int subnetSearchStop = 256;
 
     private Context context;
+    private HttpController httpController;
 
     public NetSearch(Context context) {
         this.context = context;
+        httpController = new HttpController(context);
     }
 
     private String getSubnetAddress(int address)
@@ -52,7 +63,7 @@ public class NetSearch {
         return ipString;
     }
 
-    public void search() {
+    public String getSubnet() {
 
         System.out.println("### START SEARCH ###");
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -66,6 +77,11 @@ public class NetSearch {
 
         String ip = Formatter.formatIpAddress(wifiManager.getDhcpInfo().ipAddress);
         System.out.println("IP: " + ip);
+
+        return subnet;
+
+        //TODO: something strange, now commented
+        /*
 
         ArrayList<Boolean> reachable = null;
 //        for (int i = 0; i < 256; i++) {
@@ -121,6 +137,64 @@ public class NetSearch {
             }
         });
 
+         */
+
+    }
+
+    public String searchOpenedServer(String subnet) {
+        OkHttpClient client = new OkHttpClient();
+        String bodyJson = "{\"code\":\""
+                + "isServerOpened"
+                + "\"}";
+        System.out.println(bodyJson);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), bodyJson);
+
+        for (int i = 0; i < 256; i++) {
+            Request request = new Request.Builder()
+                    .url(subnet + "." + i)
+                    .post(requestBody)
+                    .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    //TODO: if server sent "opened", return its ip
+                }
+            });
+        }
+
+
+
+        return null;
+
+    }
+
+    public void reallySearch() {
+        String subnet = getSubnet();
+
+        searchOpenedServer2(subnet)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(d -> {
+                    System.out.println("D is " + d);
+                    httpController.setHost(d);
+                    httpController.sendSignal("checkOnline");
+                }, d -> {
+                    Log.e("SubnetSearchError", "CheckOnline is not possible");
+                });
+    }
+
+    public Observable<String> searchOpenedServer2(String subnet) {
+        return  Observable.create(subscriber -> {
+            for (int i = 0; i < 256; i++) {
+//                System.out.println(subnet + "." + i);
+                subscriber.onNext(subnet + "." + i);
+            }
+        });
     }
 
     public Flowable<ArrayList<Boolean>> getOpenLocalAddresses(String subnet) {

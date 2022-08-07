@@ -40,7 +40,7 @@ public class PraxisGenerator {
     }
 
     // [addMultiply == false] Includes only + and - | [addMultiply == true] Includes * and /
-    public String generateLightMedium(boolean addMultiply) {
+    public String generateSimpleMedium(boolean addMultiply) {
 
         StringBuilder praxis = new StringBuilder();
         Random random = new Random();
@@ -59,15 +59,12 @@ public class PraxisGenerator {
 
         StringBuilder builder = new StringBuilder(praxis);
 
-        for (int i = 0; i < praxis.length() - 3; i++) {
-
-        }
-
         Random random = new Random();
         int leftBracketIndex = random.nextInt(praxis.length() - 3);
+        System.out.println("Random index left: " + leftBracketIndex);
         if (leftBracketIndex != 0) {
             if (builder.charAt(leftBracketIndex) <= '9' && builder.charAt(leftBracketIndex) >= '0') {
-                while (builder.charAt(leftBracketIndex - 1) <= '9' && builder.charAt(leftBracketIndex - 1) >= '0') {
+                while (leftBracketIndex != 0 && builder.charAt(leftBracketIndex - 1) <= '9' && builder.charAt(leftBracketIndex - 1) >= '0') {
                     leftBracketIndex--;
                 }
             } else {
@@ -76,8 +73,10 @@ public class PraxisGenerator {
                 }
             }
         }
+//        System.out.println(leftBracketIndex);
 
         int rightBracketIndex = leftBracketIndex + 1;
+        System.out.println("First right: " + rightBracketIndex);
         while (builder.charAt(leftBracketIndex) <= '9' && builder.charAt(leftBracketIndex) >= '0') {
             rightBracketIndex++;
         }
@@ -87,19 +86,25 @@ public class PraxisGenerator {
         while (builder.charAt(leftBracketIndex) <= '9' && builder.charAt(leftBracketIndex) >= '0') {
             rightBracketIndex++;
         }
-        while (!(builder.charAt(leftBracketIndex) <= '9' && builder.charAt(leftBracketIndex) >= '0')) {
-            rightBracketIndex++;
-        }
+//        while (!(builder.charAt(leftBracketIndex) <= '9' && builder.charAt(leftBracketIndex) >= '0')) {
+//            rightBracketIndex++;
+//        }
 
         int shift = rightBracketIndex - leftBracketIndex;
         rightBracketIndex = random.nextInt(praxis.length() - rightBracketIndex);
         rightBracketIndex = rightBracketIndex + shift;
+        System.out.println("Right + shift: " + rightBracketIndex);
         if (rightBracketIndex < praxis.length() - 1) {
-            
+            while (builder.charAt(leftBracketIndex) <= '9' && builder.charAt(leftBracketIndex) >= '0') {
+                rightBracketIndex++;
+            }
         }
+//
+        builder.insert(leftBracketIndex, '(');
+        builder.insert(rightBracketIndex, ')');
 
 
-        return null;
+        return builder.toString();
     }
 
 }

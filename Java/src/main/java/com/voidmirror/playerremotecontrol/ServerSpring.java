@@ -14,9 +14,9 @@ public class ServerSpring {
     private PlayerController playerController;
 
     @PostMapping(value = "/code", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public void receiveCode(@RequestBody ControlCode code) {
+    public String receiveCode(@RequestBody ControlCode code) {
         System.out.println(code.getCode());
-        playerController.executeSignal(code.getCode());
+        return playerController.executeSignal(code.getCode());
     }
     
     @GetMapping(value = "/code")

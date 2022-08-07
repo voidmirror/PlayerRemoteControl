@@ -5,7 +5,7 @@
     <string name="btnLeft">10s-</string>
     <string name="btnRight">10s+</string>
     <string name="btnFullscreen">Fullscreen</string>
-    <string name="btnExit">Exit</string>
+    <string name="btnExit">Timer</string>
     <string name="btnSoundUp">+</string>
     <string name="btnSoundDown">-</string>
     <string name="NetControllerUnableToConnect">Unable to connect to Server</string>

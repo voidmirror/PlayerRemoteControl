@@ -74,10 +74,10 @@ public class ControlActivity extends Activity {
 //            netController.sendSignal("soundDownInternal");
 //        });
 
-        btnConnect.setEnabled(false);
-//        btnConnect.setOnClickListener(view -> {
-//            httpController.establishConnection();
-//        });
+//        btnConnect.setEnabled(false);
+        btnConnect.setOnClickListener(view -> {
+            httpController.sendSignal("startTimer");
+        });
 
 
 
