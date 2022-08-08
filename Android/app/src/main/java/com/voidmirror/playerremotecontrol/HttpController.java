@@ -60,7 +60,7 @@ public class HttpController {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(response -> {
-//                    System.out.println("### V:" + response);
+                    System.out.println("### V:" + response);
                 }, v -> Log.e("RX Error", "Something goes wrong..."));
 
     }
@@ -70,7 +70,7 @@ public class HttpController {
 
             Response r = client.newCall(request).execute();
             if (r.code() == 200) {
-                subscriber.onNext(r.toString());
+                subscriber.onNext(r.body() != null ? r.body().string() : "nullBody");
             } else {
                 subscriber.onError(new Exception("Server response code != 200"));
             }

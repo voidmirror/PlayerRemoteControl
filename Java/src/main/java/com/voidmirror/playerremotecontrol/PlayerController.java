@@ -55,7 +55,7 @@ public class PlayerController {
                 }
                 break;
             case "checkOnline":
-                return "5555555";
+                return "Is Online";
         }
 
         return "ok";
