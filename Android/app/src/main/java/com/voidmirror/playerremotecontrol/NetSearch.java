@@ -24,6 +24,8 @@ import javax.xml.transform.Source;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.observers.DisposableObserver;
 
 import io.reactivex.rxjava3.core.Flowable;
@@ -89,20 +91,42 @@ public class NetSearch {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(d -> {
-                    httpController.setHost(d);
-                    httpController.sendSignal("checkOnline");
+//                    httpController.setHost(d);
+//                    httpController.sendSignal("checkOnline");
+//                    httpController.sendSignal(
+//                            httpController.makeRequest(RequestType.CODE, "checkOnline")
+//                    );
+                    httpController.sendSignal(
+                            new Request.Builder()
+                                .url(d + "/code")
+                                .post(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "{\"code\":\"checkOnline\"}"))
+                                .build()
+                    );
                 }, d -> {
                     d.printStackTrace();
                     Log.e("SubnetSearchError", "CheckOnline is not possible");
                 });
+
+//        Single.just(httpController.getRevealedHost())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.newThread())
+//                .subscribe()
+
+        httpController.getSearchedHost()
+                .subscribe(host -> {
+                    System.out.println("### FROM GETSEARCHEDHOST: now host is: " + host);
+                    httpController.setRevealedHost(host);
+                });
+
     }
 
     public Observable<String> searchOpenedServer2(String subnet) {
         return  Observable.create(subscriber -> {
             for (int i = 1; i < 255; i++) {
-                subscriber.onNext("http://" + subnet + "." + i + ":4077/code");
+                subscriber.onNext("http://" + subnet + "." + i + ":4077");
             }
         });
     }
+
 
 }

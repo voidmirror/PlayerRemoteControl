@@ -24,8 +24,8 @@ public class ControlActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
         httpController = new HttpController(this);
-        httpController.setHost("http://192.168.0.79:4077/code"); // wireless
-//        httpController.setHost("http://192.168.0.46:4077/code"); // lan
+//        httpController.setHost("http://192.168.0.79:4077/code"); // wireless
+        httpController.setHost("http://192.168.0.46:4077/code"); // lan
 //        httpController.setHost("http://192.168.43.1:4077"); // androidAP
 
 
@@ -38,25 +38,25 @@ public class ControlActivity extends Activity {
         btnSoundDown = findViewById(R.id.soundDown);
 
         btnShiftLeft.setOnClickListener(view -> {
-            httpController.sendSignal("shiftLeft");
+            httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "shiftLeft"));
         });
         btnShiftRight.setOnClickListener(view -> {
-            httpController.sendSignal("shiftRight");
+            httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "shiftRight"));
         });
         btnPause.setOnClickListener(view -> {
-            httpController.sendSignal("playPause");
+            httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "playPause"));
         });
         btnFullscreen.setOnClickListener(view -> {
-            httpController.sendSignal("fullscreen");
+            httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "fullscreen"));
         });
         btnSoundUp.setOnClickListener(view -> {
-            httpController.sendSignal("soundUp");
+            httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "soundUp"));
         });
         btnSoundDown.setOnClickListener(view -> {
-            httpController.sendSignal("soundDown");
+            httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "soundDown"));
         });
         btnConnect.setOnClickListener(view -> {
-            httpController.sendSignal("startTimer");
+            httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "startTimer"));
         });
 
     }
