@@ -23,13 +23,8 @@ public class ControlActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
-//        httpController = new HttpController();
-        httpController = HttpController.getInstance();
-//        httpController.setHost("http://192.168.0.79:4077/code"); // wireless
-//        httpController.setHost("http://192.168.0.46:4077/code"); // lan
-//        httpController.setHost("http://192.168.0.46:4077"); // lan
-//        httpController.setHost("http://192.168.43.1:4077"); // androidAP
 
+        httpController = HttpController.getInstance();
 
         btnShiftLeft = findViewById(R.id.btnShiftLeft);
         btnShiftRight = findViewById(R.id.btnShiftRight);

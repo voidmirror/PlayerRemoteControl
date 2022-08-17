@@ -57,19 +57,16 @@ public class NetSearch {
         this.context = context;
         this.httpController = HttpController.getInstance();
 
-        System.out.println("### BEFORE SEARCHEDHOST --->");
         httpController.getSearchedHost()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(host -> {
-                    System.out.println("### FROM GETSEARCHEDHOST: now host is: " + host);
 
                     /**
                      * Program is used in local network, so no need to worry about
                      * addresses like https://codewars.com and their "/code"
                      */
-                    httpController.setHost(host.replace("/code", ""));
-                    System.out.println("### SERVER HOST: " + httpController.getHost());
+                    httpController.setHost(host.replace("/check", ""));
                     ((Activity)context).findViewById(R.id.btnYoutube).setEnabled(true);
                     Toast toast = Toast.makeText(((Activity) context), "Connected to " + httpController.getHost().replace("http://", ""), Toast.LENGTH_LONG);
                     toast.show();
@@ -93,18 +90,11 @@ public class NetSearch {
 
     public String getSubnet() {
 
-        System.out.println("### START SEARCH ###");
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         String subnet = getSubnetAddress(wifiManager.getDhcpInfo().gateway);
-        System.out.println("gateway " + wifiManager.getDhcpInfo().gateway);
-        System.out.println("ipadress " + wifiManager.getDhcpInfo().ipAddress);
-        System.out.println("serveradress " + wifiManager.getDhcpInfo().serverAddress);
-        System.out.println("Subnet " + subnet);
-        System.out.println("### FINISH SEARCH ###");
 
         String ip = Formatter.formatIpAddress(wifiManager.getDhcpInfo().ipAddress);
-        System.out.println("IP: " + ip);
 
         return subnet;
 
@@ -117,14 +107,9 @@ public class NetSearch {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(d -> {
-//                    httpController.setHost(d);
-//                    httpController.sendSignal("checkOnline");
-//                    httpController.sendSignal(
-//                            httpController.makeRequest(RequestType.CODE, "checkOnline")
-//                    );
                     httpController.sendSignal(
                             new Request.Builder()
-                                    .url(d + "/code")
+                                    .url(d + "/check")
                                     .post(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "{\"code\":\"checkOnline\"}"))
                                     .build()
                     );

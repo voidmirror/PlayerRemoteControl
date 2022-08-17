@@ -20,7 +20,7 @@ public class PlayerController {
         }
     }
 
-    public String executeSignal(String signal) {
+    public void executeSignal(String signal) {
 
         switch (signal) {
             case "shiftLeft":
@@ -54,11 +54,7 @@ public class PlayerController {
                     e.printStackTrace();
                 }
                 break;
-            case "checkOnline":
-                return "checkedOnline";
         }
-
-        return "ok";
 
     }
 

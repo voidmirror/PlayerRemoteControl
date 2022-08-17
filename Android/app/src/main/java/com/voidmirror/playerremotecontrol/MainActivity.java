@@ -40,10 +40,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
-
-
-
         btnSearchHost.setOnClickListener(view -> {
             netSearch = new NetSearch(this);
             netSearch.reallySearch();

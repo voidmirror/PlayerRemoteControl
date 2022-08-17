@@ -1,4 +1,4 @@
-package com.voidmirror.playerremotecontrol;
+package com.voidmirror.playerremotecontrol.entities;
 
 public class ControlCode {
 

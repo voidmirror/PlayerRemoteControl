@@ -5,4 +5,5 @@ public enum RequestType {
     CODE,
     LINK,
     TIMER
+
 }

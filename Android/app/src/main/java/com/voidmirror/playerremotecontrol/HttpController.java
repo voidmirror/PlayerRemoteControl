@@ -41,9 +41,7 @@ public class HttpController {
             = MediaType.parse("text/html; charset=utf-8");
     private final OkHttpClient client;
     private String host = null;
-    private String revealedHost = null;
     private ReplaySubject<String> searchedHost;
-//    private Context context;
 
     private static class SingletonHolder {
         public static final HttpController HOLDER_INSTANCE = new HttpController();
@@ -69,14 +67,6 @@ public class HttpController {
         return host;
     }
 
-    public String getRevealedHost() {
-        return revealedHost;
-    }
-
-    public void setRevealedHost(String revealedHost) {
-        this.revealedHost = revealedHost;
-    }
-
     public Subject<String> getSearchedHost() {
         return searchedHost;
     }
@@ -91,6 +81,7 @@ public class HttpController {
                     handleResponse(response);
                 }, v -> {
                     Log.e("RX Error", "Something goes wrong...");
+                    v.printStackTrace();
                 });
 
     }
@@ -138,24 +129,9 @@ public class HttpController {
     }
 
     public void handleResponse(Response response) {
-//        System.out.println("### HANDLE " + response.request().url());
-//        System.out.println("### HANDLE " + response.request().url().toString());
-
         try {
-            if (response.body().string().contains("checkedOnline")) {
-                // TODO: here onNext() <--- host (http://ip:port) from response.url()
-//                System.out.println("### HANDLE " + response.request().url());
-//                System.out.println("handle 1");
-//                System.out.println("### HANDLE " + response.body().string());
-//                System.out.println("handle 2");
-//                System.out.println("### HANDLE " + response.request().url().toString());
-//                System.out.println("handle 3");
-//                if (!searchedHost.hasComplete()) {
-//                    System.out.println("### HANDLE HAS COMPLETE" );
+            if (response.body() != null && response.body().string().contains("checkedOnline")) {
                 searchedHost.onNext(response.request().url().toString());
-//                }
-//                Thread.sleep(1000);
-//                System.out.println("### REVEALED: " + revealedHost);
             }
         } catch (IOException e) {
             Log.e("HandleResponse", "Body is null or body.string() is empty");
