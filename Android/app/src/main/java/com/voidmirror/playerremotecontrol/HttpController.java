@@ -6,7 +6,14 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -17,6 +24,7 @@ import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.subjects.PublishSubject;
+import io.reactivex.rxjava3.subjects.ReplaySubject;
 import io.reactivex.rxjava3.subjects.Subject;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -34,16 +42,23 @@ public class HttpController {
     private final OkHttpClient client;
     private String host = null;
     private String revealedHost = null;
-    private Subject<String> searchedHost;
-    private Context context;
+    private ReplaySubject<String> searchedHost;
+//    private Context context;
 
-    public HttpController(Context context) {
+    private static class SingletonHolder {
+        public static final HttpController HOLDER_INSTANCE = new HttpController();
+    }
+
+    private HttpController() {
         client = new OkHttpClient()
                 .newBuilder()
                 .connectTimeout(2000, TimeUnit.MILLISECONDS)
                 .build();
-        this.context = context;
-        searchedHost = PublishSubject.create();
+        searchedHost = ReplaySubject.create();
+    }
+
+    public static HttpController getInstance() {
+        return SingletonHolder.HOLDER_INSTANCE;
     }
 
     public void setHost(String host) {
@@ -66,12 +81,7 @@ public class HttpController {
         return searchedHost;
     }
 
-
-    // TODO: maybe duplicate this method to send to revealed and unrevealed
     public void sendSignal(Request request) {
-        if (host == null) {
-            throw new NullPointerException("Host is not stated");
-        }
 
         dataSource(request)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -79,7 +89,9 @@ public class HttpController {
                 .subscribe(response -> {
                     System.out.println("### V:" + response.toString());
                     handleResponse(response);
-                }, v -> Log.e("RX Error", "Something goes wrong..."));
+                }, v -> {
+                    Log.e("RX Error", "Something goes wrong...");
+                });
 
     }
 
@@ -107,7 +119,7 @@ public class HttpController {
         RequestBody requestBody = RequestBody.create(JSON, bodyJson);
 
         return new Request.Builder()
-                .url(host + "/" + url)               //TODO: url - part after / --> host + "/" + url
+                .url(host + "/" + url)
                 .post(requestBody)
                 .build();
     }
@@ -126,12 +138,24 @@ public class HttpController {
     }
 
     public void handleResponse(Response response) {
-        // TODO: if response.body() has "checkedOnline", searched
+//        System.out.println("### HANDLE " + response.request().url());
+//        System.out.println("### HANDLE " + response.request().url().toString());
+
         try {
             if (response.body().string().contains("checkedOnline")) {
                 // TODO: here onNext() <--- host (http://ip:port) from response.url()
-//                searchedHost.onNext();
-//                response.body()
+//                System.out.println("### HANDLE " + response.request().url());
+//                System.out.println("handle 1");
+//                System.out.println("### HANDLE " + response.body().string());
+//                System.out.println("handle 2");
+//                System.out.println("### HANDLE " + response.request().url().toString());
+//                System.out.println("handle 3");
+//                if (!searchedHost.hasComplete()) {
+//                    System.out.println("### HANDLE HAS COMPLETE" );
+                searchedHost.onNext(response.request().url().toString());
+//                }
+//                Thread.sleep(1000);
+//                System.out.println("### REVEALED: " + revealedHost);
             }
         } catch (IOException e) {
             Log.e("HandleResponse", "Body is null or body.string() is empty");

@@ -31,16 +31,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        HttpController httpController = HttpController.getInstance();
         btnYoutube = findViewById(R.id.btnYoutube);
+        btnYoutube.setEnabled(false);
         btnSearchHost = findViewById(R.id.btnSearchHost);
         btnYoutube.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, ControlActivity.class);
             startActivity(intent);
         });
 
-        netSearch = new NetSearch(getApplicationContext());
+
+
+
 
         btnSearchHost.setOnClickListener(view -> {
+            netSearch = new NetSearch(this);
             netSearch.reallySearch();
         });
 

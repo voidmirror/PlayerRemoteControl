@@ -49,7 +49,7 @@ public class PlayerController {
                 break;
             case "startTimer":
                 try {
-                    Runtime.getRuntime().exec("C:\\Zed\\Scripts\\Shutdown\\shut.cmd");
+                    Runtime.getRuntime().exec("shutdown /s /f /t 2400 /c \"Время спать? 40 min\"");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
