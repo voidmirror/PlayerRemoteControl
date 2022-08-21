@@ -11,18 +11,26 @@ public class TimerExecutor {
         return timerSettings;
     }
 
-    public void setTimerSettings(String timerSettings) {
+    public void setTimerSettings(String timerNum) {
         this.timerSettings = timerSettings;
     }
 
-    public void executeTimer() {
+    public String executeTimer(String timerNum) {
 
         try {
-            Runtime.getRuntime().exec("");
+            if (Integer.parseInt(timerNum) == -1) {
+                Runtime.getRuntime().exec("shutdown /a");
+                return "Computer shutdown canceled";
+            } else {
+                Runtime.getRuntime().exec("shutdown /s /f /t " + Integer.parseInt(timerNum));
+                return "Shutdown in " + Integer.parseInt(timerNum) / 60 + " minutes";
+            }
         } catch (IOException e) {
             Logger.getAnonymousLogger().info("Timer not stated");
             e.printStackTrace();
         }
+
+        return "ERROR: Shutdown error";
 
     }
 

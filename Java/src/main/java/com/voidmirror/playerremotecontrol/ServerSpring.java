@@ -2,6 +2,7 @@ package com.voidmirror.playerremotecontrol;
 
 import com.voidmirror.playerremotecontrol.entities.ControlCode;
 import com.voidmirror.playerremotecontrol.entities.Link;
+import com.voidmirror.playerremotecontrol.entities.Timer;
 import com.voidmirror.playerremotecontrol.entities.TimerExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ public class ServerSpring {
 
     @Autowired
     private PlayerController playerController;
-
+    
     @PostMapping(value = "/code", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void receiveCode(@RequestBody ControlCode code) {
         System.out.println(code.getCode());
@@ -37,9 +38,10 @@ public class ServerSpring {
     }
 
     @PostMapping(value = "/timer", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<String> receiveTimer(@RequestBody TimerExecutor timerExecutor) {
-        System.out.println(timerExecutor.getTimerSettings());
-        return null;
+    public ResponseEntity<String> receiveTimer(@RequestBody Timer timer) {
+        System.out.println(timer.getTimerNum());
+        TimerExecutor timerExecutor = new TimerExecutor();
+        return new ResponseEntity<>(timerExecutor.executeTimer(timer.getTimerNum()), HttpStatus.OK);
     }
     
     @GetMapping(value = "/code")

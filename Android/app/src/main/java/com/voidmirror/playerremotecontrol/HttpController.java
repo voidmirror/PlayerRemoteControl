@@ -23,6 +23,7 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.subjects.BehaviorSubject;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
 import io.reactivex.rxjava3.subjects.Subject;
@@ -42,6 +43,7 @@ public class HttpController {
     private final OkHttpClient client;
     private String host = null;
     private ReplaySubject<String> searchedHost;
+    private ReplaySubject<String> lastResponse;
 
     private static class SingletonHolder {
         public static final HttpController HOLDER_INSTANCE = new HttpController();
@@ -53,6 +55,7 @@ public class HttpController {
                 .connectTimeout(2000, TimeUnit.MILLISECONDS)
                 .build();
         searchedHost = ReplaySubject.create();
+        lastResponse = ReplaySubject.create();
     }
 
     public static HttpController getInstance() {
@@ -71,6 +74,15 @@ public class HttpController {
         return searchedHost;
     }
 
+    public ReplaySubject<String> getLastResponse() {
+        return lastResponse;
+    }
+
+    public void recreateLastResponse() {
+        lastResponse.onComplete();
+        lastResponse = ReplaySubject.create();
+    }
+
     public void sendSignal(Request request) {
 
         dataSource(request)
@@ -81,7 +93,7 @@ public class HttpController {
                     handleResponse(response);
                 }, v -> {
                     Log.e("RX Error", "Something goes wrong...");
-                    v.printStackTrace();
+//                    v.printStackTrace();
                 });
 
     }
@@ -99,7 +111,7 @@ public class HttpController {
                 url = "link";
                 break;
             case TIMER:
-                key = "timerSetup";
+                key = "timerNum";
                 url = "timer";
                 break;
         }
@@ -130,8 +142,15 @@ public class HttpController {
 
     public void handleResponse(Response response) {
         try {
+
+            String body = response.peekBody(2048).string();
+            System.out.println("### BODY IS: " + body);
+
             if (response.body() != null && response.body().string().contains("checkedOnline")) {
                 searchedHost.onNext(response.request().url().toString());
+            }
+            if (response.body() != null) {
+                lastResponse.onNext(body);
             }
         } catch (IOException e) {
             Log.e("HandleResponse", "Body is null or body.string() is empty");

@@ -10,4 +10,9 @@
     <string name="btnSoundDown">-</string>
     <string name="NetControllerUnableToConnect">Unable to connect to Server</string>
     <string name="NetControllerConnected">Connected</string>
+    <string-array name="controllerDropdown">
+        <item>Open new video</item>
+        <item>Shutdown computer</item>
+        <item>Cancel shutdown</item>
+    </string-array>
 </resources>

@@ -72,7 +72,7 @@ public class NetSearch {
                     toast.show();
                 }, e -> {
                     Log.e("PUBSUBJ", "Public subject ejects something strange or nothing");
-                    e.printStackTrace();
+//                    e.printStackTrace();
                 });
 
     }
@@ -114,7 +114,7 @@ public class NetSearch {
                                     .build()
                     );
                 }, e -> {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                     Log.e("SubnetSearchError", "CheckOnline is not possible");
                 });
 
