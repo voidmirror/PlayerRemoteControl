@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/menugroup1" >
+        <item
+            android:id="@+id/menuNewVideo"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Open new video"/>
+        <item
+            android:id="@+id/menuImmediateShutdown"
+            android:title="Shutdown computer"/>
+        <item
+            android:id="@+id/menuCancelShutdown"
+            android:title="Cancel shutdown">
+<!--            <menu>-->
+<!--                <item-->
+<!--                    android:id="@+id/submenu"-->
+<!--                    android:title="Подменю"/>-->
+<!--            </menu>-->
+        </item>
+    </group>
+</menu>
