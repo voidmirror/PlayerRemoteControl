@@ -21,6 +21,9 @@ public class TimerExecutor {
             if (Integer.parseInt(timerNum) == -1) {
                 Runtime.getRuntime().exec("shutdown /a");
                 return "Computer shutdown canceled";
+            } else if (Integer.parseInt(timerNum) == 0) {
+                Runtime.getRuntime().exec("shutdown /s");
+                return "Shutting down now";
             } else {
                 Runtime.getRuntime().exec("shutdown /s /f /t " + Integer.parseInt(timerNum));
                 return "Shutdown in " + Integer.parseInt(timerNum) / 60 + " minutes";
@@ -30,7 +33,7 @@ public class TimerExecutor {
             e.printStackTrace();
         }
 
-        return "ERROR: Shutdown error";
+        return "ERROR: Timer error";
 
     }
 
