@@ -1,9 +1,9 @@
-package com.voidmirror.playerremotecontrol.entities;
+package com.voidmirror.playerremotecontrol;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class TimerExecutor {
+public class TimerExecutor implements Executor {
 
     private String timerSettings;
 
@@ -15,7 +15,8 @@ public class TimerExecutor {
         this.timerSettings = timerSettings;
     }
 
-    public String executeTimer(String timerNum) {
+    @Override
+    public String execute(String timerNum) {
 
         try {
             if (Integer.parseInt(timerNum) == -1) {

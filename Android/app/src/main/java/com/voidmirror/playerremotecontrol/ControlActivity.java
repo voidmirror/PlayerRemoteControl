@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.PopupMenu;
@@ -113,10 +114,20 @@ public class ControlActivity extends Activity {
         menu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menuNewVideo:
+                    EditText editText = new EditText(this);
+                    AlertDialog.Builder builderVideo = new AlertDialog.Builder(ControlActivity.this);
+                    builderVideo.setTitle("Open link:")
+                            .setView(editText)
+                            .setPositiveButton("Open", (dialog, which) -> {
+                                httpController.sendSignal(httpController.makeRequest(RequestType.LINK, editText.getText().toString()));
+                                dialog.dismiss();
+                            })
+                            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                            .create().show();
                     return true;
                 case R.id.menuImmediateShutdown:
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ControlActivity.this);
-                    builder.setTitle("Shutdown?")
+                    AlertDialog.Builder builderShutdown = new AlertDialog.Builder(ControlActivity.this);
+                    builderShutdown.setTitle("Shutdown?")
                             .setMessage("Are ou sure?")
                             .setPositiveButton("Yes", (dialog, which) -> {
                                 httpController.sendSignal(httpController.makeRequest(RequestType.TIMER, String.valueOf(0)));

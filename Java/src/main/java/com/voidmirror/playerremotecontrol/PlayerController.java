@@ -47,13 +47,6 @@ public class PlayerController {
                 robot.keyPress(KeyEvent.VK_DOWN);
                 robot.keyRelease(KeyEvent.VK_DOWN);
                 break;
-            case "startTimer":
-                try {
-                    Runtime.getRuntime().exec("shutdown /s /f /t 2400 /c \"Время спать? 40 min\"");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
         }
 
     }
