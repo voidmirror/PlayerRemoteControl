@@ -139,6 +139,47 @@ public class ControlActivity extends Activity {
                 case R.id.menuCancelShutdown:
                     httpController.sendSignal(httpController.makeRequest(RequestType.TIMER, String.valueOf(-1)));
                     return true;
+                case R.id.part0:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "part0"));
+                    return true;
+                case R.id.part1:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "part1"));
+                    return true;
+                case R.id.part2:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "part2"));
+                    return true;
+                case R.id.part3:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "part3"));
+                    return true;
+                case R.id.part4:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "part4"));
+                    return true;
+                case R.id.part5:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "part5"));
+                    return true;
+                case R.id.part6:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "part6"));
+                    return true;
+                case R.id.part7:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "part7"));
+                    return true;
+                case R.id.part8:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "part8"));
+                    return true;
+                case R.id.part9:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "part9"));
+                    return true;
+
+                case R.id.menuCloseTab:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "closeTab"));
+                    return true;
+                case R.id.menuLeftTab:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "leftTab"));
+                    return true;
+                case R.id.menuRightTab:
+                    httpController.sendSignal(httpController.makeRequest(RequestType.CODE, "rightTab"));
+                    return true;
+
                 default:
                     return false;
             }

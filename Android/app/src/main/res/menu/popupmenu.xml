@@ -6,16 +6,70 @@
             android:icon="@mipmap/ic_launcher"
             android:title="Open new video"/>
         <item
-            android:id="@+id/menuImmediateShutdown"
-            android:title="Shutdown computer"/>
-        <item
-            android:id="@+id/menuCancelShutdown"
-            android:title="Cancel shutdown">
-<!--            <menu>-->
-<!--                <item-->
-<!--                    android:id="@+id/submenu"-->
-<!--                    android:title="Подменю"/>-->
-<!--            </menu>-->
+            android:id="@+id/menuComputer"
+            android:title="Computer">
+            <menu>
+                <item
+                    android:id="@+id/menuImmediateShutdown"
+                    android:title="Shutdown computer"/>
+                <item
+                    android:id="@+id/menuCancelShutdown"
+                    android:title="Cancel shutdown"/>
+            </menu>
         </item>
+        <item
+            android:id="@+id/menuTab"
+            android:title="Tab">
+            <menu>
+                <item
+                    android:id="@+id/menuCloseTab"
+                    android:title="Close Tab"/>
+                <item
+                    android:id="@+id/menuLeftTab"
+                    android:title="To Left"/>
+                <item
+                    android:id="@+id/menuRightTab"
+                    android:title="To Right"/>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/menuParts"
+            android:title="Move to">
+            <menu>
+                <item
+                    android:id="@+id/part0"
+                    android:title="Part 0"/>
+                <item
+                    android:id="@+id/part1"
+                    android:title="Part 1"/>
+                <item
+                    android:id="@+id/part2"
+                    android:title="Part 2"/>
+                <item
+                    android:id="@+id/part3"
+                    android:title="Part 3"/>
+                <item
+                    android:id="@+id/part4"
+                    android:title="Part 4"/>
+                <item
+                    android:id="@+id/part5"
+                    android:title="Part 5"/>
+                <item
+                    android:id="@+id/part6"
+                    android:title="Part 6"/>
+                <item
+                    android:id="@+id/part7"
+                    android:title="Part 7"/>
+                <item
+                    android:id="@+id/part8"
+                    android:title="Part 8"/>
+                <item
+                    android:id="@+id/part9"
+                    android:title="Part 9"/>
+
+            </menu>
+        </item>
+
+
     </group>
 </menu>
