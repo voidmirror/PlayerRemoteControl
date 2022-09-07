@@ -52,7 +52,7 @@ public class HttpController {
     private HttpController() {
         client = new OkHttpClient()
                 .newBuilder()
-                .connectTimeout(2000, TimeUnit.MILLISECONDS)
+                .connectTimeout(7000, TimeUnit.MILLISECONDS)
                 .build();
         searchedHost = ReplaySubject.create();
         lastResponse = ReplaySubject.create();

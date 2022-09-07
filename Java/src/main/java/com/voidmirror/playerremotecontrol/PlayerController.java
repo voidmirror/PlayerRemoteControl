@@ -89,7 +89,7 @@ public class PlayerController {
                 break;
             case "part5":
                 robot.keyPress(KeyEvent.VK_5);
-                robot.keyRelease(KeyEvent.VK_5);
+                robot.keyRelease(KeyEvent.VK_5); 
                 break;
             case "part6":
                 robot.keyPress(KeyEvent.VK_6);
