@@ -3,6 +3,9 @@ package com.voidmirror.playerremotecontrol;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +21,8 @@ import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.regex.Pattern;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -115,6 +120,14 @@ public class ControlActivity extends Activity {
             switch (item.getItemId()) {
                 case R.id.menuNewVideo:
                     EditText editText = new EditText(this);
+                    ClipboardManager manager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData data = manager.getPrimaryClip();
+                    if (data != null) {
+                        Pattern pattern = Pattern.compile("https://youtu\\.be/.*|https://www\\.youtube\\.com/watch.*");
+                        if (pattern.matcher(data.getItemAt(0).getText().toString()).matches()) {
+                            editText.setText(data.getItemAt(0).getText().toString());
+                        }
+                    }
                     AlertDialog.Builder builderVideo = new AlertDialog.Builder(ControlActivity.this);
                     builderVideo.setTitle("Open link:")
                             .setView(editText)
