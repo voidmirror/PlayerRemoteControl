@@ -36,7 +36,6 @@ public class NetController{
                     activityContext.finish();
                 }
 //                finally {
-//                    // TODO: send toast about socket closing
 //                    closeConnection();
 //                    System.out.println("CLOSE");
 //
@@ -55,7 +54,6 @@ public class NetController{
                     out.write(signal + '\n');
                     out.flush();
                 } catch (IOException e) {
-                    // TODO: send toast about writer fail
                     Toast toast = Toast.makeText(activityContext, R.string.NetControllerUnableToConnect, Toast.LENGTH_SHORT);
                     toast.show();
                     e.printStackTrace();
@@ -66,17 +64,12 @@ public class NetController{
 
     }
 
-    public void tmp() {
-
-    }
-
     public void closeConnection() {
         if (clientSocket != null) {
             try {
                 clientSocket.close();
                 out.close();
             } catch (IOException e) {
-                // TODO: closing fail
                 e.printStackTrace();
             }
         }

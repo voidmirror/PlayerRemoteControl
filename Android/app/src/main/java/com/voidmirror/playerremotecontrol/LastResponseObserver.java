@@ -5,7 +5,6 @@ import android.widget.Toast;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import io.reactivex.rxjava3.subjects.ReplaySubject;
 import io.reactivex.rxjava3.subjects.Subject;
 
 public class LastResponseObserver {
@@ -27,7 +26,7 @@ public class LastResponseObserver {
 //                    System.out.println("### Subscribing on LastResponse");
                     Toast toast = Toast.makeText(activity, v, Toast.LENGTH_SHORT);
                     toast.show();
-                    HttpController.getInstance().recreateLastResponse();
+                    HttpControllerOld.getInstance().recreateLastResponse();
                 });
     }
 }

@@ -1,41 +1,22 @@
 package com.voidmirror.playerremotecontrol;
 
-import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import io.reactivex.rxjava3.subjects.BehaviorSubject;
-import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.ReplaySubject;
 import io.reactivex.rxjava3.subjects.Subject;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class HttpController {
+public class HttpControllerOld {
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     public static final MediaType TEXT_TYPE
@@ -46,10 +27,10 @@ public class HttpController {
     private ReplaySubject<String> lastResponse;
 
     private static class SingletonHolder {
-        public static final HttpController HOLDER_INSTANCE = new HttpController();
+        public static final HttpControllerOld HOLDER_INSTANCE = new HttpControllerOld();
     }
 
-    private HttpController() {
+    private HttpControllerOld() {
         client = new OkHttpClient()
                 .newBuilder()
                 .connectTimeout(7000, TimeUnit.MILLISECONDS)
@@ -58,7 +39,7 @@ public class HttpController {
         lastResponse = ReplaySubject.create();
     }
 
-    public static HttpController getInstance() {
+    public static HttpControllerOld getInstance() {
         return SingletonHolder.HOLDER_INSTANCE;
     }
 
@@ -72,10 +53,6 @@ public class HttpController {
 
     public Subject<String> getSearchedHost() {
         return searchedHost;
-    }
-
-    public ReplaySubject<String> getLastResponse() {
-        return lastResponse;
     }
 
     public void recreateLastResponse() {
@@ -131,6 +108,7 @@ public class HttpController {
         return Observable.create(subscriber -> {
 
             Response r = client.newCall(request).execute();
+//            Response r2 = client.newCall(request).
             if (r.code() == 200) {
                 subscriber.onNext(r);
             } else {

@@ -1,14 +1,20 @@
 package com.voidmirror.playerremotecontrol;
 
+import com.voidmirror.playerremotecontrol.entities.Signal;
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 
-public class LinkExecutor implements Executor {
-
+@Service
+public class LinkExecutor implements SignalProcessor {
 
     @Override
-    public String execute(String link) {
+    public void processSignal(Signal signal) {
+        execute(signal.getSignal());
+    }
+
+    private String execute(String link) {
         try {
-            // TODO: check link by regexp (youtube.com / youtu.be)
             Runtime.getRuntime().exec("explorer " + link);
         } catch (IOException e) {
             e.printStackTrace();

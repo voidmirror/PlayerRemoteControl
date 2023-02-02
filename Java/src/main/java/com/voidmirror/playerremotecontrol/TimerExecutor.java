@@ -1,9 +1,13 @@
 package com.voidmirror.playerremotecontrol;
 
+import com.voidmirror.playerremotecontrol.entities.Signal;
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class TimerExecutor implements Executor {
+@Service
+public class TimerExecutor implements SignalProcessor {
 
     private String timerSettings;
 
@@ -16,18 +20,22 @@ public class TimerExecutor implements Executor {
     }
 
     @Override
-    public String execute(String timerNum) {
+    public void processSignal(Signal signal)  {
+        execute(Integer.parseInt(signal.getSignal()));
+    }
+
+    private String execute(Integer timerNum) {
 
         try {
-            if (Integer.parseInt(timerNum) == -1) {
+            if (timerNum == -1) {
                 Runtime.getRuntime().exec("shutdown /a");
                 return "Computer shutdown canceled";
-            } else if (Integer.parseInt(timerNum) == 0) {
+            } else if (timerNum == 0) {
                 Runtime.getRuntime().exec("shutdown /s");
                 return "Shutting down now";
             } else {
-                Runtime.getRuntime().exec("shutdown /s /f /t " + Integer.parseInt(timerNum));
-                return "Shutdown in " + Integer.parseInt(timerNum) / 60 + " minutes";
+                Runtime.getRuntime().exec("shutdown /s /f /t " + timerNum);
+                return "Shutdown in " + timerNum / 60 + " minutes";
             }
         } catch (IOException e) {
             Logger.getAnonymousLogger().info("Timer not stated");

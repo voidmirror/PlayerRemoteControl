@@ -6,44 +6,16 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.format.Formatter;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.Toast;
-
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import java.net.InetAddress;
-import java.util.ArrayList;
-
-import javax.xml.transform.Source;
 
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.observers.DisposableObserver;
 
-import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Scheduler;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class NetSearch {
 
@@ -51,13 +23,13 @@ public class NetSearch {
     private int subnetSearchStop = 255;
 
     private Context context;
-    private HttpController httpController;
+    private HttpControllerOld httpControllerOld;
 
     public NetSearch(Context context) {
         this.context = context;
-        this.httpController = HttpController.getInstance();
+        this.httpControllerOld = HttpControllerOld.getInstance();
 
-        httpController.getSearchedHost()
+        httpControllerOld.getSearchedHost()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(host -> {
@@ -66,9 +38,9 @@ public class NetSearch {
                      * Program is used in local network, so no need to worry about
                      * addresses like https://codewars.com and their "/code"
                      */
-                    httpController.setHost(host.replace("/check", ""));
+                    httpControllerOld.setHost(host.replace("/check", ""));
                     ((Activity)context).findViewById(R.id.btnYoutube).setEnabled(true);
-                    Toast toast = Toast.makeText(((Activity) context), "Connected to " + httpController.getHost().replace("http://", ""), Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(((Activity) context), "Connected to " + httpControllerOld.getHost().replace("http://", ""), Toast.LENGTH_LONG);
                     toast.show();
                 }, e -> {
                     Log.e("PUBSUBJ", "Public subject ejects something strange or nothing");
@@ -107,7 +79,7 @@ public class NetSearch {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(d -> {
-                    httpController.sendSignal(
+                    httpControllerOld.sendSignal(
                             new Request.Builder()
                                     .url(d + "/check")
                                     .post(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "{\"code\":\"checkOnline\"}"))

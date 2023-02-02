@@ -8,11 +8,11 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 @Service
-public class PlayerController {
+public class KeyboardController {
 
     private Robot robot;
 
-    public PlayerController() {
+    public KeyboardController() {
         try {
             robot = new Robot();
         } catch (AWTException e) {

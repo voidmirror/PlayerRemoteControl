@@ -1,37 +1,30 @@
 package com.voidmirror.playerremotecontrol;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import org.reactivestreams.Subscription;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.Random;
+import com.voidmirror.playerremotecontrol.controller.HttpController;
 
-import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnYoutube;
     Button btnSearchHost;
 
-    NetSearch netSearch;
+    HttpController httpController = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        HttpController httpController = HttpController.getInstance();
+        httpController = HttpController.getInstance(this);
+
         btnYoutube = findViewById(R.id.btnYoutube);
         btnYoutube.setEnabled(false);
         btnSearchHost = findViewById(R.id.btnSearchHost);
@@ -40,11 +33,29 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        System.out.println("### HttpController: " + httpController);
+        if (httpController == null) {
+            waitWifiConnection();
+        }
+
         btnSearchHost.setOnClickListener(view -> {
-            netSearch = new NetSearch(this);
-            netSearch.reallySearch();
+            httpController.findConnection(response -> btnYoutube.setEnabled(true));
         });
 
+    }
+
+    private void waitWifiConnection() {
+        btnSearchHost.setEnabled(false);
+        Observable.create(subscriber -> {
+            while (this.httpController == null) {
+                Thread.sleep(5000);
+                this.httpController = HttpController.getInstance(this);
+            }
+
+        })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.single())
+                .subscribe();
     }
 
 }

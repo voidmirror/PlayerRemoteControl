@@ -9,10 +9,10 @@ import java.net.Socket;
 public class Server {
     private static ServerSocket serverSocket;
     private static BufferedReader in;
-    private final PlayerController playerController;
+    private final KeyboardController keyboardController;
 
-    public Server(PlayerController playerController) {
-        this.playerController = playerController;
+    public Server(KeyboardController keyboardController) {
+        this.keyboardController = keyboardController;
         try {
             serverSocket = new ServerSocket(4077);
             System.out.println("ServerSocket: " + serverSocket.toString());
@@ -41,7 +41,7 @@ public class Server {
                         stopServer(socket);
                         return;
                     } else {
-                        playerController.executeSignal(signal);
+                        keyboardController.executeSignal(signal);
                     }
 
                 }
