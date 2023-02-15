@@ -4,6 +4,7 @@ import com.voidmirror.playerremotecontrol.entities.Signal;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 @Service
 public class LinkExecutor implements SignalProcessor {
@@ -14,11 +15,17 @@ public class LinkExecutor implements SignalProcessor {
     }
 
     private String execute(String link) {
-        try {
-            Runtime.getRuntime().exec("explorer " + link);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (validateLink(link)) {
+            try {
+                Runtime.getRuntime().exec("explorer " + link);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return null;
+    }
+
+    private boolean validateLink(String link) {
+        return Pattern.matches("^http(s)?://.*", link);
     }
 }

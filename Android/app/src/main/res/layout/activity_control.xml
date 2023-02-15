@@ -104,6 +104,34 @@
         app:layout_constraintTop_toBottomOf="@+id/soundUp" />
 
     <Button
+        android:id="@+id/systemVolumeUp"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:layout_marginEnd="1dp"
+        android:text="@string/btnSystemVolumeUp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <Button
+        android:id="@+id/systemVolumeDown"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="1dp"
+        android:text="@string/btnSystemVolumeDown"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/systemVolumeUp" />
+
+    <Button
+        android:id="@+id/systemVolumeMute"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="1dp"
+        android:text="@string/btnSystemVolumeMute"
+        app:layout_constraintStart_toStartOf="@id/systemVolumeUp"
+        app:layout_constraintBottom_toTopOf="@+id/systemVolumeUp" />
+
+    <Button
         android:id="@+id/btnMenu"
         android:spinnerMode="dropdown"
         android:layout_width="120dp"

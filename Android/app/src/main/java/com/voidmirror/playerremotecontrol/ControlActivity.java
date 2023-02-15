@@ -29,6 +29,9 @@ public class ControlActivity extends Activity {
     Button btnSoundUp;
     Button btnSoundDown;
     Button btnMenu;
+    Button btnSystemVolumeUp;
+    Button btnSystemVolumeDown;
+    Button btnSystemVolumeMute;
 
     HttpController httpController;
 
@@ -47,13 +50,19 @@ public class ControlActivity extends Activity {
         btnSoundUp = findViewById(R.id.soundUp);
         btnSoundDown = findViewById(R.id.soundDown);
         btnMenu = findViewById(R.id.btnMenu);
+        btnSystemVolumeUp = findViewById(R.id.systemVolumeUp);
+        btnSystemVolumeDown = findViewById(R.id.systemVolumeDown);
+        btnSystemVolumeMute = findViewById(R.id.systemVolumeMute);
 
         btnShiftLeft.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("shiftLeft")));
         btnShiftRight.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("shiftRight")));
         btnPause.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("playPause")));
         btnFullscreen.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("fullscreen")));
         btnSoundUp.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("soundUp")));
+        btnSystemVolumeUp.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.SYSTEM).setSignalType(SignalType.NIR).setSignal("systemVolumeUp")));
         btnSoundDown.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("soundDown")));
+        btnSystemVolumeDown.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.SYSTEM).setSignalType(SignalType.NIR).setSignal("systemVolumeDown")));
+        btnSystemVolumeMute.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.SYSTEM).setSignalType(SignalType.NIR).setSignal("systemVolumeToggleMute")));
 
         btnMenu.setOnClickListener(this::openPopupMenu);
         btnTimer.setOnClickListener(view -> {

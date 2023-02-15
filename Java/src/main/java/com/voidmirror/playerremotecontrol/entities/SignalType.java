@@ -8,6 +8,7 @@ public enum SignalType {
     LINK,
     // Эмуляция клавиатуры
     KEYBOARD,
-    TAB
+    TAB,
+    NIR
 
 }

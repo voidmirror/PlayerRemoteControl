@@ -7,7 +7,10 @@
     <string name="btnFullscreen">Fullscreen</string>
     <string name="btnExit">Timer</string>
     <string name="btnSoundUp">+</string>
+    <string name="btnSystemVolumeUp">+</string>
     <string name="btnSoundDown">-</string>
+    <string name="btnSystemVolumeDown">-</string>
+    <string name="btnSystemVolumeMute">X</string>
     <string name="NetControllerUnableToConnect">Unable to connect to Server</string>
     <string name="NetControllerConnected">Connected</string>
     <string-array name="controllerDropdown">
