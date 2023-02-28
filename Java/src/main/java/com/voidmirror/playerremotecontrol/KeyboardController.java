@@ -107,6 +107,18 @@ public class KeyboardController {
                 robot.keyPress(KeyEvent.VK_9);
                 robot.keyRelease(KeyEvent.VK_9);
                 break;
+            case "left":
+                robot.keyPress(KeyEvent.VK_LEFT);
+                robot.keyRelease(KeyEvent.VK_LEFT);
+                break;
+            case "right":
+                robot.keyPress(KeyEvent.VK_RIGHT);
+                robot.keyRelease(KeyEvent.VK_RIGHT);
+                break;
+            case "space":
+                robot.keyPress(KeyEvent.VK_SPACE);
+                robot.keyRelease(KeyEvent.VK_SPACE);
+                break;
 
         }
 

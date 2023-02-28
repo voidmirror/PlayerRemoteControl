@@ -9,6 +9,6 @@ public enum SignalType {
     // Эмуляция клавиатуры
     KEYBOARD,
     TAB,
-    NIR
+    NIR,
 
 }

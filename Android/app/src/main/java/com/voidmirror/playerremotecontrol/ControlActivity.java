@@ -54,9 +54,22 @@ public class ControlActivity extends Activity {
         btnSystemVolumeDown = findViewById(R.id.systemVolumeDown);
         btnSystemVolumeMute = findViewById(R.id.systemVolumeMute);
 
-        btnShiftLeft.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("shiftLeft")));
-        btnShiftRight.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("shiftRight")));
-        btnPause.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("playPause")));
+        // NullPointerException is impossible (see MainActivity --> btn.setOnclickListener()
+        switch (getIntent().getStringExtra("playerType")) {
+            case "youtube":
+                btnShiftLeft.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("shiftLeft")));
+                btnShiftRight.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("shiftRight")));
+                btnPause.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("playPause")));
+                break;
+            case "standard":
+                btnShiftLeft.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("left")));
+                btnShiftRight.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("right")));
+                btnPause.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("space")));
+                break;
+        }
+
+
+
         btnFullscreen.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("fullscreen")));
         btnSoundUp.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.YOUTUBE).setSignalType(SignalType.PLAYER).setSignal("soundUp")));
         btnSystemVolumeUp.setOnClickListener(view -> httpController.sendSignal(Signal.create().setSystemModule(SystemModule.SYSTEM).setSignalType(SignalType.NIR).setSignal("systemVolumeUp")));

@@ -15,6 +15,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity {
 
     Button btnYoutube;
+    Button btnStandardPlayer;
     Button btnSearchHost;
 
     HttpController httpController = null;
@@ -26,10 +27,19 @@ public class MainActivity extends AppCompatActivity {
         httpController = HttpController.getInstance(this);
 
         btnYoutube = findViewById(R.id.btnYoutube);
+        btnStandardPlayer = findViewById(R.id.btnStandardPlayer);
+
         btnYoutube.setEnabled(false);
+        btnStandardPlayer.setEnabled(false);
         btnSearchHost = findViewById(R.id.btnSearchHost);
         btnYoutube.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, ControlActivity.class);
+            intent.putExtra("playerType", "youtube");
+            startActivity(intent);
+        });
+        btnStandardPlayer.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, ControlActivity.class);
+            intent.putExtra("playerType", "standard");
             startActivity(intent);
         });
 
@@ -39,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         btnSearchHost.setOnClickListener(view -> {
-            httpController.findConnection(response -> btnYoutube.setEnabled(true));
+            httpController.findConnection(response -> {btnYoutube.setEnabled(true); btnStandardPlayer.setEnabled(true);});
         });
 
     }
